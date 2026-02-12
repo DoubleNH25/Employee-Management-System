@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import LoadingBar from 'react-top-loading-bar'
-import { HandlePostHumanResources } from "../../redux/Thunks/HRThunk.js"
+import { HandlePostHumanResources, HandleGetHumanResources } from "../../redux/Thunks/HRThunk.js"
 import { clearHRError } from "../../redux/Slices/HRSlice.js"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -72,19 +72,25 @@ export const HRLogin = () => {
         setPhoneError("")
         setPhoneLoading(true)
         loadingbar.current?.continuousStart()
-        
+                
         try {
             const response = await apiService.post(HREndPoints.VERIFY_OTP, { phone, otpCode }, {
                 withCredentials: true
             })
-            
-            loadingbar.current?.complete()
-            setPhoneLoading(false)
-            
+                        
             if (response.data.success) {
-                dispatch(HandlePostHumanResources({ apiroute: "CHECKLOGIN", data: {} }))
-                navigate("/auth/HR/dashboard")
+                
+                // Update Redux state by calling CHECKLOGIN
+                await dispatch(HandleGetHumanResources({ apiroute: "CHECKLOGIN" })).unwrap()
+                
+                loadingbar.current?.complete()
+                setPhoneLoading(false)
+                
+                // Navigate to dashboard - protected route will now allow access
+                navigate("/auth/HR/dashboard", { replace: true })
             } else {
+                loadingbar.current?.complete()
+                setPhoneLoading(false)
                 setPhoneError(response.data.message)
             }
         } catch (error) {

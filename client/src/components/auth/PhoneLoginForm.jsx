@@ -28,8 +28,15 @@ export const PhoneLoginForm = ({ onSubmitPhone, onSubmitOTP, onBack, error, isLo
     }
 
     const handleOTPSubmit = async (e) => {
-        e.preventDefault()
-        await onSubmitOTP(phone, otp)
+        if (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }        
+        try {
+            await onSubmitOTP(phone, otp)
+        } catch (error) {
+            console.error('OTP Submit Error:', error)
+        }
     }
 
     const handleResendOTP = async () => {

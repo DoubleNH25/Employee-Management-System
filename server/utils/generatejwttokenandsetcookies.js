@@ -6,8 +6,8 @@ export const GenerateJwtTokenAndSetCookiesEmployee = (res, EMid, EMrole, ORGID) 
     res.cookie("EMtoken", token, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     })
 
     return token
@@ -19,8 +19,8 @@ export const GenerateJwtTokenAndSetCookiesHR = (res, HRid, HRrole, ORGID) => {
     res.cookie("HRtoken", token, {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     })
 
     return token
