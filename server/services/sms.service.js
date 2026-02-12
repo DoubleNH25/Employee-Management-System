@@ -8,36 +8,35 @@ const vonage = new Vonage({
   apiSecret: process.env.VONAGE_API_SECRET
 });
 
-/**
- * Generate a random 6-digit OTP code
- */
 export const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 export const sendOTPSMS = async (phoneNumber, otpCode) => {
-
-  console.log('\n============ SMS OTP ============');
-  console.log(`To: ${phoneNumber}`);
-  console.log(`OTP Code: ${otpCode}`);
-  console.log(`Valid for: 5 minutes`);
-  console.log('==================================\n');
+  // Check if Vonage is enabled
+  const isVonageEnabled = process.env.VONAGE_ENABLED === 'true';
   
-  return {
-    success: true,
-    messageId: 'dev-mode-' + Date.now(),
-    message: 'OTP sent successfully (DEV MODE - Check console)'
-  };
+  // DEV MODE: Just log to console
+  if (!isVonageEnabled) {
+    console.log('\n============ SMS OTP (DEV MODE) ============');
+    console.log(`To: ${phoneNumber}`);
+    console.log(`OTP Code: ${otpCode}`);
+    console.log(`Valid for: 5 minutes`);
+    console.log('===========================================\n');
+    
+    return {
+      success: true,
+      messageId: 'dev-mode-' + Date.now(),
+      message: 'OTP sent successfully (DEV MODE - Check console)'
+    };
+  }
   
-  // ============================================
   // PRODUCTION MODE: Real SMS via Vonage
-  // Uncomment below when ready for production
-  // ============================================
-  /*
   try {
     const from = process.env.VONAGE_FROM_NUMBER || 'HRMS';
     const to = phoneNumber;
     const text = `Your HRMS verification code is: ${otpCode}. Valid for 5 minutes. Do not share this code.`;
+        
     let response;
     try {
       response = await vonage.sms.send({ to, from, text });
@@ -48,6 +47,7 @@ export const sendOTPSMS = async (phoneNumber, otpCode) => {
         throw error;
       }
     }
+    
     if (response.messages && response.messages.length > 0) {
       const message = response.messages[0];
       
@@ -79,11 +79,9 @@ export const sendOTPSMS = async (phoneNumber, otpCode) => {
       message: 'Failed to send OTP'
     };
   }
-  */
 };
 
 export const validatePhoneNumber = (phoneNumber) => {
-  // International format: +[country code][number]
   const phoneRegex = /^\+[1-9]\d{1,14}$/;
   return phoneRegex.test(phoneNumber);
 };
