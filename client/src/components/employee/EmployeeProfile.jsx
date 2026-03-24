@@ -222,16 +222,7 @@ export const EmployeeProfile = ({ profile }) => {
                         <p className="text-lg text-gray-900">{profile.departmentName || profile.departmentId || "Not assigned"}</p>
                     </div>
 
-                    {profile.schedule && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-500 mb-1">
-                                Work Schedule
-                            </label>
-                            <p className="text-lg text-gray-900">
-                                {profile.schedule.days?.join(', ') || 'N/A'} | {profile.schedule.startTime || 'N/A'} - {profile.schedule.endTime || 'N/A'}
-                            </p>
-                        </div>
-                    )}
+                    
                 </div>
             )}
         </div>

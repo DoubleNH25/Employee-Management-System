@@ -26,7 +26,7 @@ export const HRSignupPage = () => {
     })
 
     const handlesignupform = (event) => {
-        CommonStateHandler(signupform, set_signuform, event)
+        CommonStateHandler(event.target.name, event.target.value, set_signuform)
     }
 
     const handlesubmitform = (event) => {

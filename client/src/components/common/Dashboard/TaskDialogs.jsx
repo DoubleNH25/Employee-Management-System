@@ -60,7 +60,7 @@ export const CreateTaskDialog = () => {
     }, [TaskState.success, TaskState.error, TaskState.isLoading, toast]);
 
     const handleFormChange = (event) => {
-        CommonStateHandler(formData, setFormData, event);
+        CommonStateHandler(event.target.name, event.target.value, setFormData);
     };
 
     const handleSubmit = (e) => {
@@ -255,7 +255,7 @@ export const UpdateTaskDialog = ({ task, children }) => {
     }, [TaskState.success, TaskState.error, TaskState.isLoading, toast]);
 
     const handleFormChange = (event) => {
-        CommonStateHandler(formData, setFormData, event);
+        CommonStateHandler(event.target.name, event.target.value, setFormData);
     };
 
     const handleSubmit = (e) => {

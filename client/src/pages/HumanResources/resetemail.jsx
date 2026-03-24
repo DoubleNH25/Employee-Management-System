@@ -21,7 +21,7 @@ export const ResetHRVerifyEmailPage = () => {
     }
 
     const handleverifyemail = (event) => {
-        CommonStateHandler(emailvalue, setemailvalue, event)
+        CommonStateHandler(event.target.name, event.target.value, setemailvalue)
     }
 
     useEffect(() => {

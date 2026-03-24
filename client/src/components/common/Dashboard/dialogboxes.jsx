@@ -42,7 +42,7 @@ export const AddEmployeesDialogBox = () => {
     })
 
     const handleformchange = (event) => {
-        CommonStateHandler(formdata, setformdata, event)
+        CommonStateHandler(event.target.name, event.target.value, setformdata)
     }
 
     return (
@@ -237,7 +237,7 @@ export const CreateDepartmentDialogBox = () => {
     })
 
     const handleformchange = (event) => {
-        CommonStateHandler(formdata, setformdata, event)
+        CommonStateHandler(event.target.name, event.target.value, setformdata)
     }
 
     const CreateDepartment = async () => {
@@ -446,7 +446,7 @@ export const UpdateDepartmentDialogBox = ({ departmentId, currentName, currentDe
     }, [currentName, currentDescription])
 
     const handleformchange = (event) => {
-        CommonStateHandler(formdata, setformdata, event)
+        CommonStateHandler(event.target.name, event.target.value, setformdata)
     }
 
     const UpdateDepartment = async () => {
